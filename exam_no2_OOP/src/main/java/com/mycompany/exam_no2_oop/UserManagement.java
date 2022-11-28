@@ -59,7 +59,7 @@ public class UserManagement {
                 Database.listDessert.add(ds);                
                 break;
             default:
-                throw new AssertionError();
+                System.out.println("--- Pilihan tidak tersedia ---");
         }
     }      
     
@@ -94,7 +94,7 @@ public class UserManagement {
                 Database.listIced.add(hb);
                 break;
             default:
-                throw new AssertionError();
+                System.out.println("--- Pilihan tidak tersedia ---");
         }
     }      
     
@@ -143,7 +143,7 @@ public class UserManagement {
                 }
                 break;
             default:
-                throw new AssertionError();
+                System.out.println("--- Pilihan tidak tersedia ---");
         }
     }
     
@@ -166,7 +166,7 @@ public class UserManagement {
                     System.out.println("--- Data kosong ---!");
                 }
             }
-            default -> throw new AssertionError();
+            default -> System.out.println("--- Pilihan tidak tersedia ---");
         }
     }
     
@@ -184,7 +184,7 @@ public class UserManagement {
             case 1:
                 if (!Database.listAppetizer.isEmpty()){
                     Database.displayDataAppetizer();
-                    System.out.println("Edit data nomor :");
+                    System.out.print("Edit data nomor :");
                     temp = input.nextInt();
                     
                     System.out.println("Masukkan data baru :");
@@ -200,7 +200,7 @@ public class UserManagement {
             case 2:
                 if (!Database.listMainCourse.isEmpty()){
                     Database.displayDataMainCourse();
-                    System.out.println("Edit data nomor :");
+                    System.out.print("Edit data nomor :");
                     temp = input.nextInt();
                     
                     System.out.println("Masukkan data baru :");
@@ -216,7 +216,7 @@ public class UserManagement {
             case 3:
                 if (!Database.listDessert.isEmpty()){
                     Database.displayDataDessert();
-                    System.out.println("Edit data nomor :");
+                    System.out.print("Edit data nomor :");
                     temp = input.nextInt();
                     
                     System.out.println("Masukkan data baru :");
@@ -230,53 +230,90 @@ public class UserManagement {
                 }
                 break;
             default:
-                throw new AssertionError();
+                System.out.println("--- Pilihan tidak tersedia ---");
         }
         
     }
     
     static void editBeverages() {
+        System.out.println("Pilih jenis makanan yang akan diedit :");
+        System.out.println("1. Iced"); 
+        System.out.println("2. Hot");
+        System.out.print("Masukkan Pilihan : ");
+        pil = input.nextInt();
         
+        switch (pil) {
+            case 1 -> {
+                if (!Database.listIced.isEmpty()){
+                    Database.displayDataIcedBeverages();
+                    System.out.print("Edit data nomor :");
+                    temp = input.nextInt();
+                    
+                    System.out.println("Masukkan data baru :");
+                    input.nextLine(); // agar input nama tidak terlewat
+                    System.out.print("Masukkan nama  : ");
+                    Database.listIced.get(temp-1).setNama(input.nextLine());
+                    System.out.print("Masukkan harga : ");
+                    Database.listIced.get(temp-1).setHarga(input.nextInt());
+                }else {
+                    System.out.println("--- Data kosong ---!");
+                }
+            }
+            case 2 -> {
+                if (!Database.listHot.isEmpty()){
+                    Database.displayDataHotBeverages();
+                    System.out.print("Edit data nomor :");
+                    temp = input.nextInt();
+                    
+                    System.out.println("Masukkan data baru :");
+                    input.nextLine(); // agar input nama tidak terlewat
+                    System.out.print("Masukkan nama  : ");
+                    Database.listHot.get(temp-1).setNama(input.nextLine());
+                    System.out.print("Masukkan harga : ");
+                    Database.listHot.get(temp-1).setHarga(input.nextInt());
+                }else {
+                    System.out.println("--- Data kosong ---!");
+                }
+            }
+            default -> System.out.println("--- Pilihan tidak tersedia ---");
+        }
     }
     
 }
 
-class User{
-    private String user;
+class Staff{
+    private String username;
     private String password;
+    private String type;    
 
-    public User(String user, String password) {
-        this.user = user;
+    public Staff(String username, String password, String type) {
+        this.username = username;
+        this.password = password;
+        this.type = type;
+    }
+
+    public void setPassword(String password) {
         this.password = password;
     }
-    
-}
 
-class Login{
-    
-    public static run(){
-        
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getUsername() {
+        return username;
     }
     
-//    String username, password;
-//    int pil;
-//    System.out.println("Login sebagai :");
-//    System.out.println("1. Admin"); // restaurant user
-//    System.out.println("2. Customer"); // customer user 
-//    System.out.print("Masukkan pilihan : ");
-//    pil = input.nextInt();// input pilihan user
-//    switch (pil) {
-//        case 1:
-//            System.out.print("Username :");
-//            username = input.nextLine();
-//            System.out.print("Password :");
-//            password = input.nextLine();
-//
-//            break;
-//        case 2:
-//            break;
-//        default:
-//            System.out.println("=== Pilihan tidak ada ===");
-//    }
-
 }

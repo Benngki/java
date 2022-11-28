@@ -40,6 +40,7 @@ public class Exam_no2_OOP {
                         System.out.println("--- Pembayaran berhasil! ---");
                         System.out.println("--- Terima Kasih ---");
                     }
+                    
                     break;
                 case 2: // BCA bank transfer
                     do {
@@ -55,7 +56,8 @@ public class Exam_no2_OOP {
                     } while (true);
                     break;
                 case 3: // gopay
-                    System.out.println("Masukkan no telepon anda yang terdaftar di Gopay :");
+                    input.nextLine();
+                    System.out.print("Masukkan no telepon anda yang terdaftar di Gopay :");
                     str_temp = input.nextLine();
                     
                     System.out.println("--- Pembayaran berhasil! ---");
@@ -68,64 +70,89 @@ public class Exam_no2_OOP {
         } while (true);
     }    
     
+    static boolean loginVerify(String username, String password){
+        String tempUser, tempPassword;
+        for (int i = 0; i < Database.listStaffAccounts.size(); i++) {
+            tempUser = Database.listStaffAccounts.get(i).getUsername();
+            tempPassword = Database.listStaffAccounts.get(i).getPassword();
+            if (username.equals(tempUser) && password.equals(tempPassword)){
+                return true;
+            }            
+        }
+        return false;
+    }
+    
     static void displayMainMenu(){
         int pil;
         
         do {
-            System.out.println("=== Restaurant ===");
+            System.out.println("=== Restaurant Indonesia ===");
             System.out.println("Masuk sebagai :");
             System.out.println("1. User Management");
             System.out.println("2. Customer");
+            System.out.println("3. Exit");
             System.out.print("Masukkan pilihan : ");
             pil = input.nextInt();
             
             do {
                 switch (pil) {
                     case 1: // user management
-                        System.out.println("User Management Menu :");
-                        System.out.println("1. Add menu");
-                        System.out.println("2. Delete Menu");
-                        System.out.println("3. Edit menu");
-                        System.out.print("Masukkan pilihan : ");
-                        pil = input.nextInt();     
-                            
-                        switch (pil) {
-                            case 1 -> {  // add menu
-                                System.out.println("1. Food");
-                                System.out.println("2. Drink");
-                                System.out.print("Masukkan pilihan : ");        
-                                pil = input.nextInt();
+                        String username, password;
+                        input.nextLine();
+                        System.out.println("--- Silahkan login terlebih dahulu! ---");
+                        System.out.print("Masukkan username : ");
+                        username = input.nextLine();
+                        System.out.print("Masukkan password : ");
+                        password = input.nextLine();
+                        
+                        if (loginVerify(username, password)){
+                            System.out.println("User Management Menu :");
+                            System.out.println("1. Add menu");
+                            System.out.println("2. Delete Menu");
+                            System.out.println("3. Edit menu");
+                            System.out.print("Masukkan pilihan : ");
+                            pil = input.nextInt();     
 
-                                switch (pil) {
-                                    case 1 -> UserManagement.addFood();
-                                    case 2 -> UserManagement.addBeverages();
-                                }
-                            }
-                            case 2 -> {  // delete menu
-                                System.out.println("1. Food");
-                                System.out.println("2. Drink");
-                                System.out.print("Masukkan pilihan : ");        
-                                pil = input.nextInt();
+                            switch (pil) {
+                                case 1 -> {  // add menu
+                                    System.out.println("1. Food");
+                                    System.out.println("2. Drink");
+                                    System.out.print("Masukkan pilihan : ");        
+                                    pil = input.nextInt();
 
-                                switch (pil) {
-                                    case 1 -> UserManagement.deleteFood();
-                                    case 2 -> UserManagement.deleteBeverages();
+                                    switch (pil) {
+                                        case 1 -> UserManagement.addFood();
+                                        case 2 -> UserManagement.addBeverages();
+                                    }
                                 }
-                            }
-                            case 3 -> {  // edit menu
-                                System.out.println("1. Food");
-                                System.out.println("2. Drink");
-                                System.out.print("Masukkan pilihan : ");        
-                                pil = input.nextInt();
+                                case 2 -> {  // delete menu
+                                    System.out.println("1. Food");
+                                    System.out.println("2. Drink");
+                                    System.out.print("Masukkan pilihan : ");        
+                                    pil = input.nextInt();
 
-                                switch (pil) {
-                                    case 1 -> UserManagement.editFood();
-                                    case 2 -> UserManagement.editBeverages();
+                                    switch (pil) {
+                                        case 1 -> UserManagement.deleteFood();
+                                        case 2 -> UserManagement.deleteBeverages();
+                                    }
                                 }
+                                case 3 -> {  // edit menu
+                                    System.out.println("1. Food");
+                                    System.out.println("2. Drink");
+                                    System.out.print("Masukkan pilihan : ");        
+                                    pil = input.nextInt();
+
+                                    switch (pil) {
+                                        case 1 -> UserManagement.editFood();
+                                        case 2 -> UserManagement.editBeverages();
+                                    }
+                                }
+
+                                default -> throw new AssertionError();
                             }
-                            
-                            default -> throw new AssertionError();
                         }
+                        else System.out.println("--- Username atau password salah! ---");
+                        
                         break;
                     case 2 : // customer
                         do {
@@ -159,17 +186,28 @@ public class Exam_no2_OOP {
                             break;
                         } while (true);
                         break;
+                    case 3:
+                        System.exit(0);
+                        System.out.println("--- Terima Kasih ---");
+                        break;
                     default:
                         System.out.println("--- Pilihan tidak ada ---");
                         break;
                 }
-                
-                    break;         
+                break;      
             } while (true);
         } while (true);
     }
     
     public static void main(String[] args) {  
+        // user managementaccount 
+        Staff waiters = new Staff("waiters", "ws123", "Waiters");
+        Staff chef = new Staff("cheff", "cf456", "Cheff");
+        Staff fnc_dprt = new Staff("fndprt", "fd789", "Financial Depart");
+        Database.listStaffAccounts.add(waiters);
+        Database.listStaffAccounts.add(chef);
+        Database.listStaffAccounts.add(fnc_dprt);
+        
         // restaurant menu default
         // food
         
@@ -256,54 +294,7 @@ public class Exam_no2_OOP {
         hb.setHarga(6000);
         Database.listHot.add(hb); // coklat panas
        
-       
         displayMainMenu();
-        
-//        ap.setNama("Nasi Goreng");
-//        ap.setHarga(20000);
-//        
-//        listFood.add(ap);
-//        
-//        ap = new Appetizer();
-//        ap.setNama("Nasi Kuning");
-//        ap.setHarga(15000);
-//        
-//        listFood.add(ap);
-//        
-//        mc.setNama("Jagung");
-//        mc.setHarga(30000);
-//        
-//        ds.setNama("Salad");
-//        ds.setHarga(70000);
-//        
-//        for (int i = 0; i < listFood.size(); i++) {
-//            System.out.println(listFood.get(i).getNama());
-//            System.out.println(listFood.get(i).getHarga());
-//        }
-        
-//        System.out.println(ap.getNama());
-//        System.out.println(ap.getHarga());
-        
-//        System.out.println("");
-//        
-//        System.out.println(mc.getNama());
-//        System.out.println(mc.getHarga());
-//        
-//        System.out.println("");
-//        
-//        System.out.println(ds.getNama());
-//        System.out.println(ds.getHarga());
-        
         
     }
 }
-
-//abstract class Food();
-//class Food();
-//class MainCourse();
-//
-//abstract class Beverages();
-//class Iced();
-//class Hot();
-
-
